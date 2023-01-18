@@ -25,7 +25,7 @@ while True:  # 链接循环
             # 制作固定长度的报头
             # print("C端数据：", date)
             # conn.send(date.upper())
-            print(len(stdout)+len(stderr))
+            print(len(stdout) + len(stderr))
             conn.send(stdout + stderr)
         except ConnectionResetError:  # 防止死循环   仅限win系统
             break

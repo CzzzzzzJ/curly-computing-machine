@@ -8,7 +8,7 @@ phone.connect(("127.0.0.1", 8088))
 
 # 发收消息
 while True:
-    # 1. 发消息
+    # 1. 发消息    随便做一次修改试试看
     msg = input(">>").strip()  # 去空格
     if not msg: continue
     phone.send(msg.encode("utf-8"))
