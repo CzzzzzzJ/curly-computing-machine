@@ -1,3 +1,4 @@
+import json
 import socket
 import struct
 import subprocess
@@ -24,10 +25,18 @@ while True:  # 链接循环
             stdout = obj.stdout.read()
             stderr = obj.stderr.read()
             # 制作固定长度的报头
-            total_size = len(stdout) + len(stderr)
-            header = struct.pack("i", total_size)
-            # 把报头发给客户端
-            conn.send(header)
+            header_dic = {
+                "filename": "a.txt",
+                "md5": "",
+                "total_size": len(stdout) + len(stderr)
+            }
+            header_json = json.dumps(header_dic)
+            header_bytes = header_json.encode("utf-8")
+            header_len = struct.pack("i", len(header_bytes))
+            # 先发送报头长度
+            conn.send(header_len)
+            # 再发报头
+            conn.send(header_bytes)
 
             # 发送真是信息给客户端
 
