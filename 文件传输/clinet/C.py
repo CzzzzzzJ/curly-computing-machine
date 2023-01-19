@@ -1,10 +1,31 @@
 import json
+import os
 import socket
 import struct
 
 download_dir = r"C:\Users\czj\Desktop\python\socket111\文件传输\clinet\download\/"
-#
-def put():
+
+
+def put(phone, cmds):
+    filename = cmds[1]
+    # 制作固定长度的报头
+    header_dic = {
+        "filename": filename,
+        "md5": "",
+        "file_size": os.path.getsize(r'%s%s' % (download_dir, filename))
+    }
+    header_json = json.dumps(header_dic)
+    header_bytes = header_json.encode("utf-8")
+    header_len = struct.pack("i", len(header_bytes))
+    # 先发送报头长度
+    phone.send(header_len)
+    # 再发报头
+    phone.send(header_bytes)
+    # 发送真实信息给客户端
+    with open('%s%s' % (download_dir, filename), "rb") as f:
+        for line in f:
+            phone.send(line)  # 一行一行发，避免文件太多占满内存
+
 
 def get(phone):
     # 接受文件内容，以”写“的方式打开新文件并写入
@@ -44,7 +65,7 @@ def run():
         if cmds[0] == "get":
             get(phone)
         elif cmds[0] == 'put':
-            put(phone)
+            put(phone,cmds)
 
     # 关闭
     phone.close()

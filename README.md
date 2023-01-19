@@ -10,6 +10,5 @@
 2.文件传输: 
  - 修改对应的download_dir，share_dir为上传下载地址
  - get xxx.txt    下载share_dir下xxx.txt文件到download_dir。
- - put xxx.txt    上传download_dir下xxx.txt文件到share_dir。 （待开发）
-
+ - put xxx.txt    上传download_dir下xxx.txt文件到share_dir。
 

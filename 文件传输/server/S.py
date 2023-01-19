@@ -7,7 +7,26 @@ import subprocess
 share_dir = r"C:\Users\czj\Desktop\python\socket111\文件传输\server\share\/"
 
 
-def put(cmds, conn):
+def put(conn):
+    # 先取报头长度
+    obj = conn.recv(4)
+    header_len = struct.unpack("i", obj)[0]
+    # 再收报头
+    header_bytes = conn.recv(header_len)
+    # 从报头中解析信息
+    header_json = header_bytes.decode("utf-8")
+    header_dic = json.loads(header_json)
+    total_size = header_dic["file_size"]
+    filename = header_dic["filename"]
+
+    # 接收真实信息
+    with open('%s%s' % (share_dir, filename), "wb") as f:
+        recv_size = 0
+        while recv_size < total_size:
+            line = conn.recv(1024)
+            f.write(line)
+            recv_size += len(line)
+            print('总大小：%s  已下载：%s' % (total_size, recv_size))
 
 
 def get(cmds, conn):
@@ -26,7 +45,6 @@ def get(cmds, conn):
     conn.send(header_len)
     # 再发报头
     conn.send(header_bytes)
-
     # 发送真实信息给客户端
     with open('%s%s' % (share_dir, filename), "rb") as f:
         # conn.send(f.read())
@@ -58,7 +76,7 @@ def run():
                 if cmds[0] == 'get':
                     get(cmds, conn)
                 if cmds[0] == 'put':
-                    put(cmds, conn)
+                    put(conn)
 
 
 
