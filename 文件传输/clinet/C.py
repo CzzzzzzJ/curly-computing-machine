@@ -3,7 +3,8 @@ import socket
 import struct
 
 download_dir = r"C:\Users\czj\Desktop\python\socket111\文件传输\clinet\download\/"
-
+#
+def put():
 
 def get(phone):
     # 接受文件内容，以”写“的方式打开新文件并写入
@@ -42,6 +43,8 @@ def run():
         cmds = cmd.split()
         if cmds[0] == "get":
             get(phone)
+        elif cmds[0] == 'put':
+            put(phone)
 
     # 关闭
     phone.close()

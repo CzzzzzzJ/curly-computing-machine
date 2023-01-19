@@ -7,9 +7,11 @@ import subprocess
 share_dir = r"C:\Users\czj\Desktop\python\socket111\文件传输\server\share\/"
 
 
+def put(cmds, conn):
+
+
 def get(cmds, conn):
     filename = cmds[1]
-
     # 以 “读”方式打开文件，读取文件内容 发送给客户端
     # 制作固定长度的报头
     header_dic = {
@@ -25,7 +27,7 @@ def get(cmds, conn):
     # 再发报头
     conn.send(header_bytes)
 
-    # 发送真是信息给客户端
+    # 发送真实信息给客户端
     with open('%s%s' % (share_dir, filename), "rb") as f:
         # conn.send(f.read())
         for line in f:
@@ -55,6 +57,8 @@ def run():
                 cmds = date.decode("utf-8").split()  # ["get","1.txt"]
                 if cmds[0] == 'get':
                     get(cmds, conn)
+                if cmds[0] == 'put':
+                    put(cmds, conn)
 
 
 
