@@ -3,16 +3,9 @@ import socket
 import struct
 
 download_dir = r"C:\Users\czj\Desktop\python\socket111\文件传输\clinet\download\/"
-#  买手机
-phone = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-# 拨号
-phone.connect(("127.0.0.1", 8088))
-# 发收消息
-while True:
-    # 发送命令
-    msg = input(">>").strip()  # 去空格
-    if not msg: continue
-    phone.send(msg.encode("utf-8"))
+
+
+def get(phone):
     # 接受文件内容，以”写“的方式打开新文件并写入
     # 先取报头长度
     obj = phone.recv(4)
@@ -34,5 +27,25 @@ while True:
             recv_size += len(line)
             print('总大小：%s  已下载：%s' % (total_size, recv_size))
 
-# 关闭
-phone.close()
+
+def run():
+    #  买手机
+    phone = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # 拨号
+    phone.connect(("127.0.0.1", 8088))
+    # 发收消息
+    while True:
+        # 发送命令
+        cmd = input(">>").strip()  # 去空格
+        if not cmd: continue
+        phone.send(cmd.encode("utf-8"))
+        cmds = cmd.split()
+        if cmds[0] == "get":
+            get(phone)
+
+    # 关闭
+    phone.close()
+
+
+if __name__ == '__main__':
+    run()
