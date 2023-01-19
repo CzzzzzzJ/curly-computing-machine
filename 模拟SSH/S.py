@@ -1,4 +1,5 @@
 import socket
+import struct
 import subprocess
 
 #  买手机
@@ -23,9 +24,13 @@ while True:  # 链接循环
             stdout = obj.stdout.read()
             stderr = obj.stderr.read()
             # 制作固定长度的报头
-            # print("C端数据：", date)
-            # conn.send(date.upper())
-            print(len(stdout) + len(stderr))
+            total_size = len(stdout) + len(stderr)
+            header = struct.pack("i", total_size)
+            # 把报头发给客户端
+            conn.send(header)
+
+            # 发送真是信息给客户端
+
             conn.send(stdout + stderr)
         except ConnectionResetError:  # 防止死循环   仅限win系统
             break
