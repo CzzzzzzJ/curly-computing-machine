@@ -3,7 +3,7 @@ import os
 import socket
 import struct
 
-download_dir = r"C:\Users\czj\Desktop\python\socket111\文件传输\clinet\download\/"
+download_dir = r"C:\Users\czj\Desktop\python\socket111\文件传输\clinet\download\/"  # 修改为本地客户端目录
 
 
 def put(phone, cmds):
@@ -65,7 +65,7 @@ def run():
         if cmds[0] == "get":
             get(phone)
         elif cmds[0] == 'put':
-            put(phone,cmds)
+            put(phone, cmds)
 
     # 关闭
     phone.close()

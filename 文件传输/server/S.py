@@ -4,7 +4,7 @@ import socket
 import struct
 import subprocess
 
-share_dir = r"C:\Users\czj\Desktop\python\socket111\文件传输\server\share\/"
+share_dir = r"C:\Users\czj\Desktop\python\socket111\文件传输\server\share\/"  # 修改为本地服务端目录
 
 
 def put(conn):
@@ -77,9 +77,6 @@ def run():
                     get(cmds, conn)
                 if cmds[0] == 'put':
                     put(conn)
-
-
-
 
             except ConnectionResetError:  # 防止死循环   仅限win系统
                 break
